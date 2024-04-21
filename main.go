@@ -176,6 +176,10 @@ func (m MockMetricBoard) GetMetric(ctx context.Context, panelId string, query Me
 	return nil
 }
 
+var (
+	metricboardLocal = EnvTryParseBool("METRICBOARD_LOCAL")
+)
+
 func main() {
 	var metricBoard MetricBoard = MockMetricBoard{}
 
@@ -192,7 +196,7 @@ func main() {
 
 		Logger.Infof("requesting ws for path=%v, entity=%v", path, entityId)
 
-		c, err := websocket.Accept(writer, request, nil)
+		c, err := websocket.Accept(writer, request, &websocket.AcceptOptions{InsecureSkipVerify: metricboardLocal})
 		if err != nil {
 			Logger.Errorf("failed to accept websocket connection: uri=%v, err=%v", request.RequestURI, err)
 			return

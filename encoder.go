@@ -7,7 +7,7 @@ import (
 
 const (
 	F32Bin = iota + 1
-	U64Bin = iota + 1
+	U64Bin
 )
 
 func EncodeU64(values []uint64) []byte {
